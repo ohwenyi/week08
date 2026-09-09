@@ -1,4 +1,4 @@
-# Week 08 CI/CD pipeline trigger change
+# Week 09 rebuild trigger
 import logging
 import os
 import time
