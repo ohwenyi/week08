@@ -144,39 +144,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Diagnose Azure credential mapping
-        if: matrix.image == 'koalatech-frontend'
-        shell: bash
-        env:
-          AZURE_CREDS: ${{ secrets.AZURE_CREDENTIALS }}
-          EXPECTED_SUBSCRIPTION: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-        run: |
-          CLIENT_ID=$(printf '%s' "$AZURE_CREDS" | jq -r '.clientId')
-          SUBSCRIPTION_ID=$(printf '%s' "$AZURE_CREDS" | jq -r '.subscriptionId')
-
-          echo "Credential client ID: $CLIENT_ID"
-
-          case "$CLIENT_ID" in
-            "88563181-f942-4b7c-8b5e-37a4a895a592")
-              echo "Credential identity: SP1 - sit722-week07-github"
-              ;;
-            "94b9735c-6f68-40d4-b9e6-0521fb7f5cad")
-              echo "Credential identity: SP2 - sit722-week07-github"
-              ;;
-            "f42f810e-75d7-44bd-befa-2173f57ff01b")
-              echo "Credential identity: sit722-week07-github-actions"
-              ;;
-            *)
-              echo "Credential identity: another service principal"
-              ;;
-          esac
-
-          if [ "$SUBSCRIPTION_ID" = "$EXPECTED_SUBSCRIPTION" ]; then
-            echo "Subscription matches current Azure for Students: YES"
-          else
-            echo "Subscription matches current Azure for Students: NO"
-          fi
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
