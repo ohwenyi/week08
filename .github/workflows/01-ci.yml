@@ -154,6 +154,8 @@ jobs:
           CLIENT_ID=$(printf '%s' "$AZURE_CREDS" | jq -r '.clientId')
           SUBSCRIPTION_ID=$(printf '%s' "$AZURE_CREDS" | jq -r '.subscriptionId')
 
+          echo "Credential client ID: $CLIENT_ID"
+
           case "$CLIENT_ID" in
             "88563181-f942-4b7c-8b5e-37a4a895a592")
               echo "Credential identity: SP1 - sit722-week07-github"
