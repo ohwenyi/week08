@@ -1,0 +1,25 @@
+grafana:
+  enabled: true
+
+  service:
+    type: ClusterIP
+
+  defaultDashboardsEnabled: true
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+
+prometheus:
+  enabled: true
+
+  prometheusSpec:
+    retention: 2d
+
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true

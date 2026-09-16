@@ -61,6 +61,44 @@ jobs:
             --retry-delay 5 \
             http://${{ env.FRONTEND_IP }}
 
+      - name: Verify monitoring pods
+        run: |
+          kubectl get pods -n monitoring
+
+      - name: Verify Prometheus service
+        run: |
+          kubectl get service monitoring-kube-prometheus-prometheus \
+            -n monitoring
+
+      - name: Verify Grafana service
+        run: |
+          kubectl get service monitoring-grafana \
+            -n monitoring
+
+      - name: Verify Prometheus metrics
+        run: |
+          kubectl port-forward \
+            service/monitoring-kube-prometheus-prometheus \
+            9090:9090 \
+            -n monitoring > /tmp/prometheus-port-forward.log 2>&1 &
+
+          sleep 10
+
+          curl --fail \
+            "http://localhost:9090/api/v1/query?query=up"
+
+      - name: Verify Grafana health
+        run: |
+          kubectl port-forward \
+            service/monitoring-grafana \
+            3000:80 \
+            -n monitoring > /tmp/grafana-port-forward.log 2>&1 &
+
+          sleep 10
+
+          curl --fail \
+            http://localhost:3000/api/health
+
   deploy-production:
     name: Deploy to Production
     needs: smoke-test

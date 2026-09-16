@@ -197,5 +197,16 @@ cython_debug/
 .cursorindexingignore
 
 node_modules/
-# Local Week 08 Terraform working files
-terraform/
+# Terraform local/generated files
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Terraform CLI local configuration
+.terraformrc
+terraform.rc
+
+# Terraform plan output
+*.tfplan
